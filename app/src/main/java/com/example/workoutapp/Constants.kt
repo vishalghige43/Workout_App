@@ -19,6 +19,14 @@ object Constants {
         exList.add(ex7);
         val ex8=Exersice(8,"LEG RAISE",R.drawable.ex8);
         exList.add(ex8);
+        val ex9=Exersice(9,"JUMPING JACKS",R.drawable.ex9);
+        exList.add(ex9);
+        val ex10=Exersice(10,"SKIPPING",R.drawable.ex10);
+        exList.add(ex10);
+        val ex11=Exersice(11,"SHOULDER TAPS",R.drawable.ex11);
+        exList.add(ex11);
+        val ex12=Exersice(12,"HIGH KNEES",R.drawable.ex12);
+        exList.add(ex12);
         return exList;
     }
 }

@@ -7,6 +7,8 @@ import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.workoutapp.databinding.ActivityExersiceBinding
 import java.util.Locale
 
@@ -23,6 +25,8 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private var tts:TextToSpeech?=null;
 
+    private var exerciseStatus:ExerciseAdapter?=null;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityExersiceBinding.inflate(layoutInflater);
@@ -37,7 +41,13 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
         tts= TextToSpeech(this,this);
         setupTimer();
-
+        setupExerciseReView();
+    }
+    private fun setupExerciseReView(){
+        binding?.rvExStatus?.layoutManager=
+            LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        exerciseStatus=ExerciseAdapter(exList!!);
+        binding?.rvExStatus?.adapter=exerciseStatus;
     }
     override fun onInit(p0: Int) {
         if(p0==TextToSpeech.SUCCESS){
@@ -74,9 +84,10 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         restProgress=0;
         restProgressBar();
     }
+
     private fun restProgressBar(){
         binding?.progressBar?.progress=restProgress;
-        restTimer=object :CountDownTimer(10000,1000){
+        restTimer=object :CountDownTimer(1000,1000){
             override fun onTick(p0: Long) {
                 restProgress++;
                 binding?.progressBar?.progress=10-restProgress;
@@ -85,9 +96,9 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     speakOut((10-restProgress).toString());
                 }
             }
-
             override fun onFinish() {
-
+                exList!![currEx].setIsSel(true);
+                exerciseStatus?.notifyDataSetChanged();
                 setupExTimer();
             }
         }.start();
@@ -103,6 +114,10 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         binding?.exImg?.setImageResource(exList!![currEx].getImg());
         binding?.tvEx?.text=exList!![currEx].getName();
+
+        exList!![currEx].setIsSel(true);
+        exerciseStatus?.notifyDataSetChanged();
+
 
         ExProgress=0;
 
@@ -127,6 +142,10 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 }
             }
             override fun onFinish() {
+                exList!![currEx].setIsSel(false);
+                exList!![currEx].setIsComp(true);
+
+                exerciseStatus?.notifyDataSetChanged();
                 if(currEx< exList?.size!!-1){
                     setupTimer();
                 }
