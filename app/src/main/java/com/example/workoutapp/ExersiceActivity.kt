@@ -87,7 +87,7 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private fun restProgressBar(){
         binding?.progressBar?.progress=restProgress;
-        restTimer=object :CountDownTimer(1000,1000){
+        restTimer=object :CountDownTimer(10000,1000){
             override fun onTick(p0: Long) {
                 restProgress++;
                 binding?.progressBar?.progress=10-restProgress;
