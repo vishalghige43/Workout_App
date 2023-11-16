@@ -1,5 +1,6 @@
 package com.example.workoutapp
 
+import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.widget.Toast
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.workoutapp.databinding.ActivityExersiceBinding
+import com.example.workoutapp.databinding.CustomDialogboxOnBackPressBinding
 import java.util.Locale
 
 class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
@@ -41,11 +43,30 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
         exList=Constants.defaultExList();
         binding?.toolBarEx?.setNavigationOnClickListener{
-            onBackPressed();
+            customOnBackPressed();
         }
         tts= TextToSpeech(this,this);
         setupTimer();
         setupExerciseReView();
+    }
+
+    override fun onBackPressed() {
+        customOnBackPressed()
+//        super.onBackPressed()
+    }
+    private fun customOnBackPressed(){
+        var customDialog=Dialog(this@ExersiceActivity);
+        var dialogBinding= CustomDialogboxOnBackPressBinding.inflate(layoutInflater);
+        customDialog.setContentView(dialogBinding.root);
+        customDialog.setCanceledOnTouchOutside(false);
+        dialogBinding.btnYes.setOnClickListener {
+            this@ExersiceActivity.finish();
+            customDialog.dismiss();
+        }
+        dialogBinding.btnNo.setOnClickListener {
+            customDialog.dismiss();
+        }
+        customDialog.show();
     }
     private fun setupExerciseReView(){
         binding?.rvExStatus?.layoutManager=
