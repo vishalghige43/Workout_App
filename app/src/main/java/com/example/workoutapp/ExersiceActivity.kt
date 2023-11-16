@@ -1,5 +1,6 @@
 package com.example.workoutapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -7,7 +8,7 @@ import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.workoutapp.databinding.ActivityExersiceBinding
 import java.util.Locale
@@ -26,6 +27,9 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var tts:TextToSpeech?=null;
 
     private var exerciseStatus:ExerciseAdapter?=null;
+
+    private  var exTimeInSec:Int=30;
+    private  var restTimeInSec:Int=10;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,13 +91,13 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private fun restProgressBar(){
         binding?.progressBar?.progress=restProgress;
-        restTimer=object :CountDownTimer(10000,1000){
+        restTimer=object :CountDownTimer((restTimeInSec*1000).toLong(),1000){
             override fun onTick(p0: Long) {
                 restProgress++;
-                binding?.progressBar?.progress=10-restProgress;
-                binding?.tvTimer?.text=(10-restProgress).toString();
-                if((10-restProgress)<4 &&(10-restProgress)>0){
-                    speakOut((10-restProgress).toString());
+                binding?.progressBar?.progress=restTimeInSec-restProgress;
+                binding?.tvTimer?.text=(restTimeInSec-restProgress).toString();
+                if((restTimeInSec-restProgress)<4 &&(restTimeInSec-restProgress)>0){
+                    speakOut((restTimeInSec-restProgress).toString());
                 }
             }
             override fun onFinish() {
@@ -132,13 +136,13 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private fun ExProgressBar(){
         binding?.progressExBar?.progress=ExProgress;
-        ExTimer=object :CountDownTimer(30000,1000){
+        ExTimer=object :CountDownTimer((exTimeInSec*1000).toLong(),1000){
             override fun onTick(p0: Long) {
                 ExProgress++;
-                binding?.progressExBar?.progress=30-ExProgress;
-                binding?.tvExTimer?.text=(30-ExProgress).toString();
-                if((30-ExProgress)<4&&(30-ExProgress)>0){
-                    speakOut((30-ExProgress).toString());
+                binding?.progressExBar?.progress=exTimeInSec-ExProgress;
+                binding?.tvExTimer?.text=(exTimeInSec-ExProgress).toString();
+                if((exTimeInSec-ExProgress)<4&&(exTimeInSec-ExProgress)>0){
+                    speakOut((exTimeInSec-ExProgress).toString());
                 }
             }
             override fun onFinish() {
@@ -150,8 +154,9 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     setupTimer();
                 }
                 else {
-                    Toast.makeText(this@ExersiceActivity,
-                        "Completed",Toast.LENGTH_LONG).show();
+                    Toast.makeText(this@ExersiceActivity,"finished", Toast.LENGTH_SHORT).show();
+                    var intent:Intent=Intent(this@ExersiceActivity,FinishActivity::class.java);
+                    startActivity(intent);
                 }
             }
         }.start();
