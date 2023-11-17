@@ -1,19 +1,16 @@
 package com.example.workoutapp
 
-import android.app.Dialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
-import android.widget.Toast
-
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.workoutapp.databinding.ActivityExersiceBinding
-import com.example.workoutapp.databinding.CustomDialogboxOnBackPressBinding
 import java.util.Locale
+
 
 class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var binding:ActivityExersiceBinding?=null;
@@ -55,18 +52,19 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 //        super.onBackPressed()
     }
     private fun customOnBackPressed(){
-        var customDialog=Dialog(this@ExersiceActivity);
-        var dialogBinding= CustomDialogboxOnBackPressBinding.inflate(layoutInflater);
-        customDialog.setContentView(dialogBinding.root);
-        customDialog.setCanceledOnTouchOutside(false);
-        dialogBinding.btnYes.setOnClickListener {
-            this@ExersiceActivity.finish();
-            customDialog.dismiss();
+        var blurBac=BlurDialogBoxFragment();
+        blurBac.dialogListener=object : BlurDialogBoxFragment.DialogListener{
+            override fun onPositiveButtonClick() {
+                this@ExersiceActivity.finish();
+            }
+            override fun onNegativeButtonClick() {
+            }
         }
-        dialogBinding.btnNo.setOnClickListener {
-            customDialog.dismiss();
-        }
-        customDialog.show();
+        blurBac.show(supportFragmentManager,blurBac.javaClass.simpleName);
+//        var customDialog=Dialog(this@ExersiceActivity);
+//        var dialogBinding= CustomDialogboxOnBackPressBinding.inflate(layoutInflater);
+
+
     }
     private fun setupExerciseReView(){
         binding?.rvExStatus?.layoutManager=
@@ -175,7 +173,6 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     setupTimer();
                 }
                 else {
-                    Toast.makeText(this@ExersiceActivity,"finished", Toast.LENGTH_SHORT).show();
                     var intent:Intent=Intent(this@ExersiceActivity,FinishActivity::class.java);
                     startActivity(intent);
                 }
