@@ -20,6 +20,20 @@ class MainActivity : AppCompatActivity() {
             val intent:Intent=Intent(this,BmiActivity::class.java);
             startActivity(intent);
         }
+
+    }
+
+    override fun onBackPressed() {
+        var blurBac=BlurDialogBoxFragment();
+
+        blurBac.dialogListener=object : BlurDialogBoxFragment.DialogListener{
+            override fun onPositiveButtonClick() {
+                this@MainActivity.finish();
+            }
+            override fun onNegativeButtonClick() {
+            }
+        }
+        blurBac.show(supportFragmentManager,blurBac.javaClass.simpleName);
     }
 
     override fun onDestroy() {

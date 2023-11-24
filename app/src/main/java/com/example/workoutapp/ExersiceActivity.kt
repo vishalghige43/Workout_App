@@ -38,6 +38,9 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         if(supportActionBar!=null){
             supportActionBar?.setDisplayHomeAsUpEnabled(true);
         }
+        binding?.toolBarEx?.setNavigationOnClickListener{
+            onBackPressed();
+        }
         exList=Constants.defaultExList();
 
         tts= TextToSpeech(this,this);
