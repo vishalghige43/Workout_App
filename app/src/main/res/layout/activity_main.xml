@@ -17,8 +17,39 @@
         tools:layout_editor_absoluteX="0dp"
         android:src="@drawable/homepic7min"
         android:contentDescription="@string/start_img"
-
         />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:layout_constraintBottom_toTopOf="@+id/flStart"
+        android:layout_marginTop="150dp"
+        android:orientation="horizontal"
+        android:layout_marginEnd="5dp"
+        >
+        <Button
+            android:id="@+id/bmiBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BMI"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+
+            />
+        <Button
+            android:id="@+id/HistoryBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="HISTORY"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            />
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/flStart"
@@ -29,7 +60,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/start_btm_ripple"
-
         >
         <TextView
             android:layout_width="wrap_content"

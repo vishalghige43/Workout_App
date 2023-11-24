@@ -39,9 +39,7 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             supportActionBar?.setDisplayHomeAsUpEnabled(true);
         }
         exList=Constants.defaultExList();
-        binding?.toolBarEx?.setNavigationOnClickListener{
-            customOnBackPressed();
-        }
+
         tts= TextToSpeech(this,this);
         setupTimer();
         setupExerciseReView();
@@ -140,7 +138,6 @@ class ExersiceActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         exList!![currEx].setIsSel(true);
         exerciseStatus?.notifyDataSetChanged();
-
 
         ExProgress=0;
 
