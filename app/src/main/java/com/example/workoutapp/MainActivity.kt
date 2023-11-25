@@ -20,7 +20,10 @@ class MainActivity : AppCompatActivity() {
             val intent:Intent=Intent(this,BmiActivity::class.java);
             startActivity(intent);
         }
-
+        binding?.HistoryBtn?.setOnClickListener {
+            val intent:Intent=Intent(this,HistoryActivity::class.java);
+            startActivity(intent);
+        }
     }
 
     override fun onBackPressed() {
